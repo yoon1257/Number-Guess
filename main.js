@@ -1,10 +1,57 @@
-//<로직 구성하기>
-//1. 랜덤번호 지정 --
-//2. 유저가 번호를 입력한다. 그리고 go라는 버튼을 누른다. --
-//3. 만약에 랜덤번호를 맞추면 "맞췄습니다." --
-//4. 만약에 랜덤번호<유저번호 down --
-//5. 만약에 랜덤번호 > 유저번호 up --
-//6. 리셋번호를 번호를 누르면 게임이 리셋된다. --
-//7. 5번의 기회를 다 쓰면 게임이 끝난다( 추측 불가.  버튼 disable)
-//8. 유저가 1~100 범위 밖에 숫자를 입력시에는 알려주고 기회를 깍지 않는다.
-//9. 유저가 이미 입력한 숫자를 입력시에는 알려주고 기회를 깍지 않는다
+let computerNum = 0;
+let inputArea = document.getElementById("input-area");
+let goButton = document.getElementById("go-button");
+let resultArea = document.getElementById("result-area");
+let resetButton = document.getElementById("reset-button");
+let chanceArea = document.getElementById("chance-area");
+let chances = 5;
+let gameOver = false;
+let history = [];
+
+const pickRandomNum = () => {
+  computerNum = Math.floor(Math.random() * 100) + 1;
+  console.log("정답", computerNum);
+};
+
+const play = () => {
+  let userNum = inputArea.value;
+
+  if (userNum < 1 || userNum > 100) {
+    resultArea.textContent = "범위 밖의 숫자입니다. ";
+    return;
+  }
+  if (history.includes(userNum)) {
+    resultArea.textContent = "동일한 숫자를 입력했습니다.";
+    return;
+  }
+  chances--;
+  chanceArea.textContent = `남은기회: ${chances}번`;
+
+  if (computerNum > userNum) {
+    resultArea.textContent = "up";
+  } else if (computerNum < userNum) {
+    resultArea.textContent = "down";
+  } else if (computerNum == userNum) {
+    resultArea.textContent = "정답입니다";
+    gameOver = true;
+  }
+  history.push(userNum);
+
+  if (chances < 1) {
+    gameOver = true;
+  }
+  if (gameOver == true) {
+    goButton.disabled = true;
+  }
+};
+
+const reset = () => {
+  inputArea.value = "";
+  pickRandomNum();
+  resultArea.textContent = "리셋되었습니다. 숫자를 입력해주세요";
+};
+// TDZ 영역이 발생될수 있으므로 top to button 형식으로 적어주기
+goButton.addEventListener("click", play);
+resetButton.addEventListener("click", reset);
+
+pickRandomNum();

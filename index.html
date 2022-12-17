@@ -11,13 +11,17 @@
     <div class="entire-wrapper">
       <div class="content-wrapper">
         <h1>UP & DOWN 숫자맞추기</h1>
-        <p>숫자를 맞춰보세요</p>
-        <p>남은 기회 : 5번</p>
+        <p id="result-area">숫자를 맞춰보세요</p>
+        <p id="chance-area">남은 기회 : 5번</p>
         <div>
-          <input type="number" placeholder="숫자를 입력하세요" />
-          <button>Go</button>
+          <input
+            type="number"
+            id="input-area"
+            placeholder="숫자를 입력하세요"
+          />
+          <button id="go-button">Go</button>
         </div>
-        <div><button>Reset</button></div>
+        <div><button id="reset-button">Reset</button></div>
       </div>
     </div>
     <script src="main.js"></script>
